@@ -1,11 +1,9 @@
-from graphene import ObjectType, String, Schema
+import graphene
+from crm.schema import Query as CRMQuery
 
 
-class Query(ObjectType):
-    hello = String()
-
-    def resolve_hello(root, info):
-        return "Hello, GraphQL!"
+class Query(CRMQuery, graphene.ObjectType):
+    pass
 
 
-schema = Schema(query=Query)
+schema = graphene.Schema(query=Query)
