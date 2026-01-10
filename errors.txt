@@ -1,0 +1,21 @@
+Watching for file changes with StatReloader
+[10/Jan/2026 04:17:35] "GET /graphql HTTP/1.1" 200 2611
+[10/Jan/2026 04:17:35] "POST /graphql HTTP/1.1" 200 27861
+[10/Jan/2026 04:17:37] "POST /graphql HTTP/1.1" 200 181
+[10/Jan/2026 04:18:34] "POST /graphql HTTP/1.1" 200 67
+Bad Request: /graphql
+[10/Jan/2026 04:19:30] "POST /graphql HTTP/1.1" 400 105
+Bad Request: /graphql
+[10/Jan/2026 04:20:55] "POST /graphql HTTP/1.1" 400 104
+Bad Request: /graphql
+[10/Jan/2026 04:20:57] "POST /graphql HTTP/1.1" 400 104
+Bad Request: /graphql
+[10/Jan/2026 04:21:15] "POST /graphql HTTP/1.1" 400 213
+[10/Jan/2026 04:21:59] "POST /graphql HTTP/1.1" 200 132
+[10/Jan/2026 04:22:25] "POST /graphql HTTP/1.1" 200 264
+[10/Jan/2026 04:22:47] "POST /graphql HTTP/1.1" 200 230
+[10/Jan/2026 04:22:58] "POST /graphql HTTP/1.1" 200 29
+/root/alx/backend/alx-backend-graphql_crm/crm/schema.py changed, reloading.
+Watching for file changes with StatReloader
+[10/Jan/2026 04:23:56] "POST /graphql HTTP/1.1" 200 109
+[10/Jan/2026 04:25:08] "POST /graphql HTTP/1.1" 200 230
