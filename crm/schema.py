@@ -2,24 +2,29 @@
 import re
 import graphene
 import graphene_django
+from graphene_django.filter import DjangoFilterConnectionField
 from .models import Customer, Order, Product
+from .filters import CustomerFilter, OrderFilter, ProductFilter
 
 
 class ProductType(graphene_django.DjangoObjectType):
     class Meta:
         model = Product
+        interfaces = (graphene.relay.Node,)
         fields = "__all__"
 
 
 class CustomerType(graphene_django.DjangoObjectType):
     class Meta:
         model = Customer
-        fields = ("id", "name", "email", "phone")
+        interfaces = (graphene.relay.Node,)
+        fields = ("id", "name", "email", "phone", "created_at")
 
 
 class OrderType(graphene_django.DjangoObjectType):
     class Meta:
         model = Order
+        interfaces = (graphene.relay.Node,)
         fields = "__all__"
 
 
@@ -130,7 +135,6 @@ class CreateOrder(graphene.Mutation):
     success = graphene.Boolean()
     order = graphene.Field(OrderType)
     error_message = graphene.String()
-    total = graphene.Float()
 
     def mutate(root, info, customer_id, products):
         customer = Customer.objects.filter(pk=customer_id).first()
@@ -140,19 +144,16 @@ class CreateOrder(graphene.Mutation):
                 if products:
                     local_order = Order()
                     local_order.customer = customer
-                    local_total = 0
 
                     local_order.save()
 
                     for p_id in products:
                         product = Product.objects.get(pk=p_id)
                         local_order.products.add(product)
-                        local_total += product.price
+                        local_order.total_amount += product.price
 
                     local_order.save()
-                    return CreateOrder(
-                        success=True, order=local_order, total=local_total
-                    )
+                    return CreateOrder(success=True, order=local_order)
             except Exception as e:
                 return CreateOrder(
                     success=False,
@@ -172,6 +173,13 @@ class CreateOrder(graphene.Mutation):
 
 
 class Query(graphene.ObjectType):
+    all_customers = DjangoFilterConnectionField(
+        CustomerType, filterset_class=CustomerFilter
+    )
+    all_products = DjangoFilterConnectionField(
+        ProductType, filterset_class=ProductFilter
+    )
+    all_orders = DjangoFilterConnectionField(OrderType, filterset_class=OrderFilter)
     hello = graphene.String(default_value="Hello, GraphQL!")
     customer = graphene.List(CustomerType)
     product = graphene.List(ProductType)
